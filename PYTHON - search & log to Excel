@@ -1,0 +1,32 @@
+import requests
+from bs4 import BeautifulSoup
+import openpyxl
+
+# Prompt the user for the topic
+topic = input("Enter a topic to search for news: ")
+
+# Scrape Google News for the top headlines related to the topic
+url = f"https://news.google.com/search?q={topic}&hl=en-US&gl=US&ceid=US%3Aen"
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "html.parser")
+headlines = soup.find_all("a", {"class": "DY5T1d"})
+
+# Create a new Excel workbook and worksheet
+workbook = openpyxl.Workbook()
+worksheet = workbook.active
+
+# Add headers to the worksheet
+worksheet["A1"] = "Headline"
+worksheet["B1"] = "Link"
+
+# Write the top 10 headlines to the worksheet
+for i, headline in enumerate(headlines[:10], start=2):
+    worksheet[f"A{i}"] = headline.text
+    worksheet[f"B{i}"] = f"https://news.google.com{headline['href']}"
+
+# Save the Excel file
+workbook.save(f"{topic}_news.xlsx")
+
+print("Top 10 news headlines logged to Excel file.")
+
+# CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
