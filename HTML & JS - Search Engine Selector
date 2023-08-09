@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Engine Selector</title>
+</head>
+<body>
+  <h1>Search Engine Selector</h1>
+  
+  <input type="text" id="searchInput" placeholder="Enter your search query">
+  
+  <select id="searchEngineSelect">
+    <option value="google">Google</option>
+    <option value="wikipedia">Wikipedia</option>
+    <option value="reddit">Reddit</option>
+  </select>
+  
+  <button id="searchButton">Search</button>
+  
+  <script>
+    document.getElementById("searchButton").addEventListener("click", function() {
+      const searchQuery = document.getElementById("searchInput").value;
+      const selectedEngine = document.getElementById("searchEngineSelect").value;
+      
+      switch (selectedEngine) {
+        case "google":
+          window.location.href = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+          break;
+        case "wikipedia":
+          window.location.href = `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(searchQuery)}`;
+          break;
+        case "reddit":
+          window.location.href = `https://www.reddit.com/search?q=${encodeURIComponent(searchQuery)}`;
+          break;
+        default:
+          alert("Please select a search engine.");
+      }
+    });
+  </script>
+</body>
+</html>
